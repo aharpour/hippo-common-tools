@@ -1,0 +1,164 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.tdclighthouse</groupId>
+	<artifactId>hippo-common-tools</artifactId>
+	<packaging>jar</packaging>
+	<version>0.4.19-SNAPSHOT</version>
+	<name>Hippo common tools</name>
+	<url>http://tdclighthouse.com</url>
+
+	<developers>
+		<developer>
+			<name>Ebrahim Aharpour</name>
+			<email>ebrahim.aharpour@gmail.com</email>
+		</developer>
+	</developers>
+
+	<properties>
+		<hst.version>2.24.05</hst.version>
+		<javax.mail.version>1.4</javax.mail.version>
+		<freemarker.version>2.3.9</freemarker.version>
+		<commons.lang.version>2.5</commons.lang.version>
+		<commons.codec.version>1.4</commons.codec.version>
+		<json.lib.version>2.2.2</json.lib.version>
+		<javax.jcr.version>1.0</javax.jcr.version>
+	</properties>
+
+
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.jcr</groupId>
+			<artifactId>jcr</artifactId>
+			<version>${javax.jcr.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<type>jar</type>
+			<version>${json.lib.version}</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javax.mail.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onehippo.cms7.hst.dependencies</groupId>
+			<artifactId>hst-client-dependencies</artifactId>
+			<version>${hst.version}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.onehippo.cms7.hst</groupId>
+			<artifactId>hst-api</artifactId>
+			<version>${hst.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+  			<groupId>org.slf4j</groupId>
+  			<artifactId>slf4j-api</artifactId>
+		    <version>1.6.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons.lang.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons.codec.version}</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>hippo</id>
+			<name>Hippo maven 2 repository.</name>
+			<url>http://repository.hippocms.org/maven2/</url>
+			<snapshots />
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<scm>
+		<connection>scm:svn:https://svn.tdclighthouse.local/repos/shared_projects/tdclighthouse/commons/trunk</connection>
+		<developerConnection>scm:svn:https://svn.tdclighthouse.local/repos/shared_projects/tdclighthouse/commons/trunk</developerConnection>
+		<url>https://svn.tdclighthouse.local/repos/shared_projects/tdclighthouse/commons/trunk</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>com.tdclighthouse.repository.releases</id>
+			<url>http://nexus.tdclighthouse.local/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>com.tdclighthouse.repository.snapshots</id>
+			<url>http://nexus.tdclighthouse.local/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<tagNameFormat>@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<inherited>true</inherited>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
