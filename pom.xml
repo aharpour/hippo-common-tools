@@ -15,7 +15,7 @@
    limitations under the License.
  -->
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.tdclighthouse</groupId>
+	<groupId>com.tdclighthouse.hippo</groupId>
 	<artifactId>hippo-common-tools</artifactId>
 	<packaging>jar</packaging>
 	<version>0.4.20-SNAPSHOT</version>
@@ -130,7 +130,7 @@
 
 	<distributionManagement>
 		<repository>
-			<id>sf.hippo.common.tools.repository</id>
+			<id>sf-hippo-common-tools-repo</id>
 			<url>svn:https://svn.code.sf.net/p/hippocommontool/code/maven2/</url>
 		</repository>
 	</distributionManagement>
