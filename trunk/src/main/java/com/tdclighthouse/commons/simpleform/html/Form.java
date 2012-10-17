@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2012 Finalist B.V.
+ * 
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.tdclighthouse.commons.simpleform.html;
 
 import java.beans.BeanInfo;
@@ -24,7 +39,7 @@ import com.tdclighthouse.commons.simpleform.validation.validator.item.BlankField
 
 /**
  * @author Ebrahim Aharpour
- *
+ * 
  */
 public class Form {
 
@@ -33,12 +48,12 @@ public class Form {
 	private final FormItemGroup group;
 	private String errorMessage;
 	private final Map<Object, Object> attributes = new HashMap<Object, Object>();
-	private Boolean validationSucceed; 
+	private Boolean validationSucceed;
 	private final List<FormValidator> validators = new ArrayList<FormValidator>();
 	private static Class<? extends FormItemValidator> BlankFieldValidator = BlankFieldValidator.class;
 	private Class<?> beanClass;
 	private final AnnotationProssesor annotationProssesor = new AnnotationProssesor();
-	
+
 	public Form(String formName, String action) {
 		super();
 		if (StringUtils.isBlank(formName)) {
@@ -59,7 +74,7 @@ public class Form {
 		this.group = new FormItemGroup("defaultGroup", null, null);
 		this.group.addItems(items);
 	}
-	
+
 	public Form(String formName, String action, Object bean) {
 		this(formName, action);
 		try {
@@ -97,11 +112,11 @@ public class Form {
 	public String getAction() {
 		return action;
 	}
-	
+
 	public Object getAttribute(String key) {
 		return this.attributes.get(key);
 	}
-	
+
 	public Map<Object, Object> getAttributesMap() {
 		return this.attributes;
 	}
@@ -112,18 +127,18 @@ public class Form {
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-	
+
 	public FormItemGroup getGroup() {
 		return this.group;
 	}
-	
+
 	/**
 	 * @return the items
 	 */
 	public List<FormItem> getItems() {
 		return this.group.getItems();
 	}
-	
+
 	public Map<String, FormItem> getItemsMap() {
 		return this.group.getItemsMap();
 	}
@@ -134,37 +149,36 @@ public class Form {
 	public String getName() {
 		return formName;
 	}
-	
+
 	public FormItemGroup getSubgroupByName(String subgroupName) {
 		return this.group.getSubgroupByName(subgroupName);
 	}
-	
 
 	public Map<String, FormItemGroup> getSubgroups() {
 		return this.group.getSubgroups();
 	}
-	
+
 	/**
 	 * @return the validationSucceed
 	 */
 	public Boolean getValidationSucceed() {
 		return validationSucceed;
 	}
-	
+
 	public List<FormValidator> getValidators() {
 		return validators;
 	}
-	
+
 	public void removeArribute(String key) {
 		if (this.attributes.containsKey(key)) {
 			this.attributes.remove(key);
 		}
 	}
-	
+
 	public void setAttribute(String key, String value) {
 		this.attributes.put(key, value);
 	}
-	
+
 	/**
 	 * @param errorMessage
 	 *            the errorMessage to set
@@ -172,14 +186,15 @@ public class Form {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-	
+
 	/**
-	 * @param validationSucceed the validationSucceed to set
+	 * @param validationSucceed
+	 *            the validationSucceed to set
 	 */
 	public void setValidationSucceed(Boolean validationSucceed) {
 		this.validationSucceed = validationSucceed;
 	}
-	
+
 	public static Class<? extends FormItemValidator> getBlankFieldValidator() {
 		return BlankFieldValidator;
 	}
@@ -189,11 +204,13 @@ public class Form {
 	}
 
 	public class AnnotationProssesor {
-		//TODO it needs to be refactored. Bear in mind that a incomplete but working software is better than no software
-		public Collection<FormItem> getFormItems(Object bean) throws IntrospectionException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchFieldException {
+		// TODO it needs to be refactored. Bear in mind that a incomplete but working software is better than no
+		// software
+		public Collection<FormItem> getFormItems(Object bean) throws IntrospectionException, IllegalArgumentException,
+				IllegalAccessException, InvocationTargetException, SecurityException, NoSuchFieldException {
 			@SuppressWarnings("unchecked")
 			SortedMap<Double, FormItem> map = new TreeMap<Double, FormItem>(new ComparableComparator());
-			
+
 			if (bean == null) {
 				throw new IllegalArgumentException();
 			}
@@ -207,8 +224,9 @@ public class Form {
 					if (field != null) {
 						String name = getFieldName(propertyDescriptor, field);
 						String StringValue = getStringValue(bean, propertyDescriptor);
-						FormItem formItem = new FormItem(name, field.type(), StringValue, field.label(), field.hint(), field.mandatory());
-						if(field.mandatory()) {
+						FormItem formItem = new FormItem(name, field.type(), StringValue, field.label(), field.hint(),
+								field.mandatory());
+						if (field.mandatory()) {
 							formItem.addValidator(BlankFieldValidator.getName(), "");
 						}
 						Validator validatorAnnotation = declaredField.getAnnotation(Validator.class);
@@ -220,7 +238,7 @@ public class Form {
 							}
 						}
 						map.put(field.weight(), formItem);
-						
+
 					}
 				}
 			}
@@ -244,10 +262,7 @@ public class Form {
 			}
 			return result;
 		}
-		
 
 	}
-
-
 
 }

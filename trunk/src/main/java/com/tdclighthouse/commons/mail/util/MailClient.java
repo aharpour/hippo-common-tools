@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2012 Finalist B.V.
+ * 
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.tdclighthouse.commons.mail.util;
 
 import java.util.Properties;
@@ -19,37 +34,38 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * @author Ebrahim Aharpour
+ * 
+ */
 public class MailClient {
 
 	private String mailServer;
 	private int portNumber = -1;
 	private Session session;
-	
+
 	public MailClient(String mailServer) {
 		if (StringUtils.isBlank(mailServer)) {
-			throw new IllegalArgumentException(
-					"In valid mailServer argument is provided");
+			throw new IllegalArgumentException("In valid mailServer argument is provided");
 		}
 		this.mailServer = mailServer;
 	}
 
 	public MailClient(String mailServer, int portNumber) {
-		if (StringUtils.isBlank(mailServer) && portNumber < 0
-				&& portNumber > 65535) {
+		if (StringUtils.isBlank(mailServer) && (portNumber < 0) && (portNumber > 65535)) {
 			throw new IllegalArgumentException("In valid mailServer or portNumber");
 		}
 		this.mailServer = mailServer;
 		this.portNumber = portNumber;
 	}
-	
+
 	public MailClient(Session mailSession) {
 		this.session = mailSession;
 	}
 
-	public void sendMail(String from, String[] to, Mail mail)
-			throws MessagingException, AddressException {
+	public void sendMail(String from, String[] to, Mail mail) throws MessagingException, AddressException {
 		// a brief validation
-		if (from == null || "".equals(from) || to.length == 0 || mail == null) {
+		if ((from == null) || "".equals(from) || (to.length == 0) || (mail == null)) {
 			throw new IllegalArgumentException();
 		}
 		Session session = getSession();
@@ -58,15 +74,14 @@ public class MailClient {
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
 		for (int i = 0; i < to.length; i++) {
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-					to[i]));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to[i]));
 		}
 		message.setSubject(mail.getSubject(), "utf-8");
 
 		// use a MimeMultipart as we need to handle the file attachments
 		Multipart multipart = new MimeMultipart("alternative");
 
-		if(mail.getMessageBody() != null && !"".equals(mail.getMessageBody())) {
+		if ((mail.getMessageBody() != null) && !"".equals(mail.getMessageBody())) {
 			// add the message body to the mime message
 			BodyPart textPart = new MimeBodyPart();
 			textPart.setContent(mail.getMessageBody(), "text/plain; charset=utf-8"); // sets type to "text/plain"
@@ -100,14 +115,12 @@ public class MailClient {
 			}
 
 			// Get a mail session
-			session = Session.getDefaultInstance(props, null);			
+			session = Session.getDefaultInstance(props, null);
 		}
 		return session;
 	}
 
-
-	protected void addAtachments(String[] attachments, Multipart multipart)
-			throws MessagingException, AddressException {
+	protected void addAtachments(String[] attachments, Multipart multipart) throws MessagingException, AddressException {
 		for (int i = 0; i < attachments.length; i++) {
 			String filename = attachments[i];
 			MimeBodyPart attachmentBodyPart = new MimeBodyPart();
