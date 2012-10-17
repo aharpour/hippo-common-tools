@@ -130,7 +130,7 @@
 
 	<distributionManagement>
 		<repository>
-			<id>hippo.common.tools.repository</id>
+			<id>sf.hippo.common.tools.repository</id>
 			<url>svn:https://svn.code.sf.net/p/hippocommontool/code/maven2/</url>
 		</repository>
 	</distributionManagement>
