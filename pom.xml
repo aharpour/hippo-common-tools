@@ -123,23 +123,25 @@
 	</repositories>
 
 	<scm>
-		<connection>scm:svn:https://svn.tdclighthouse.local/repos/shared_projects/tdclighthouse/commons/trunk</connection>
-		<developerConnection>scm:svn:https://svn.tdclighthouse.local/repos/shared_projects/tdclighthouse/commons/trunk</developerConnection>
-		<url>https://svn.tdclighthouse.local/repos/shared_projects/tdclighthouse/commons/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/hippocommontool/code/trunk/</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/hippocommontool/code/trunk/</developerConnection>
+		<url>https://svn.code.sf.net/p/hippocommontool/code/trunk/</url>
 	</scm>
 
 	<distributionManagement>
 		<repository>
-			<id>com.tdclighthouse.repository.releases</id>
-			<url>http://nexus.tdclighthouse.local/content/repositories/releases/</url>
+			<id>hippo.common.tools.repository</id>
+			<url>svn:https://svn.code.sf.net/p/hippocommontool/code/maven2/</url>
 		</repository>
-		<snapshotRepository>
-			<id>com.tdclighthouse.repository.snapshots</id>
-			<url>http://nexus.tdclighthouse.local/content/repositories/snapshots/</url>
-		</snapshotRepository>
 	</distributionManagement>
 
 	<build>
+		<extensions>
+			<extension>
+				<groupId>org.jvnet.wagon-svn</groupId>
+				<artifactId>wagon-svn</artifactId>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
