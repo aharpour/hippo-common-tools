@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2012 Finalist B.V.
+ * 
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.tdclighthouse.commons.simpleform.validation;
 
 import java.util.ArrayList;
@@ -16,11 +31,10 @@ import com.tdclighthouse.commons.simpleform.html.FormItem;
  */
 public class ValidatorEngine {
 
-	private Map<String, FormItemValidator> validators = Collections
+	private final Map<String, FormItemValidator> validators = Collections
 			.synchronizedMap(new HashMap<String, FormItemValidator>());
 
-	public boolean validate(Form form) throws InstantiationException,
-			IllegalAccessException, ClassNotFoundException {
+	public boolean validate(Form form) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		boolean result;
 		List<FormItem> invalidItems = new ArrayList<FormItem>();
 		Collection<FormItem> items = form.getItems();
@@ -31,18 +45,15 @@ public class ValidatorEngine {
 				List<String> validationCriteria = item.getValidationCriteria();
 				if (classNames.size() == validationCriteria.size()) {
 					for (int i = 0; i < classNames.size(); i++) {
-						FormItemValidator itemValidator = getItemValidator(classNames
-								.get(i));
-						if (!itemValidator.validate(item,
-								validationCriteria.get(i))) {
+						FormItemValidator itemValidator = getItemValidator(classNames.get(i));
+						if (!itemValidator.validate(item, validationCriteria.get(i))) {
 							invalidItems.add(item);
 							break;
 						}
 					}
 				} else {
-					throw new IllegalArgumentException(
-							"there should be a one to one"
-									+ " correspondence between classNames and validation criteria");
+					throw new IllegalArgumentException("there should be a one to one"
+							+ " correspondence between classNames and validation criteria");
 				}
 			}
 		}
@@ -68,8 +79,7 @@ public class ValidatorEngine {
 		return result;
 	}
 
-	private FormItemValidator getItemValidator(String className)
-			throws InstantiationException, IllegalAccessException,
+	private FormItemValidator getItemValidator(String className) throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
 		FormItemValidator formItemValidator = validators.get(className);
 		if (formItemValidator == null) {
@@ -79,9 +89,8 @@ public class ValidatorEngine {
 				formItemValidator = (FormItemValidator) candidateObject;
 				validators.put(className, formItemValidator);
 			} else {
-				throw new IllegalArgumentException(
-						"the given class name does not belong to an "
-								+ "implementation of the interface \"FormItemValidator\"");
+				throw new IllegalArgumentException("the given class name does not belong to an "
+						+ "implementation of the interface \"FormItemValidator\"");
 			}
 		}
 		return formItemValidator;

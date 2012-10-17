@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2012 Finalist B.V.
+ * 
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.tdclighthouse.commons.utils.objectdump;
 
 import java.lang.reflect.Array;
@@ -22,10 +37,8 @@ public class ObjectDump {
 
 	// the following String is used to mark the root Object in the Map
 	private static final String OBJECT_KEY = "78c4df7e-deea-453a-a0c4-852b05a99e76";
-	private static Set<String> filteredMethods = Collections
-			.synchronizedSet(new HashSet<String>());
-	private static List<Filter> filters = Collections
-			.synchronizedList(new ArrayList<Filter>());
+	private static Set<String> filteredMethods = Collections.synchronizedSet(new HashSet<String>());
+	private static List<Filter> filters = Collections.synchronizedList(new ArrayList<Filter>());
 
 	static {
 		addFilter(new ObjectFilter());
@@ -46,18 +59,13 @@ public class ObjectDump {
 				}
 			} else {
 				result.element(OBJECT_KEY, object.toString());
-				if (!(object instanceof String || object instanceof Class)
-						&& depth != 0) {
+				if (!((object instanceof String) || (object instanceof Class)) && (depth != 0)) {
 					Class<? extends Object> cls = object.getClass();
 					Method[] methods = cls.getMethods();
 					for (Method method : methods) {
-						if (method.getName().startsWith("get")
-								&& method.getParameterTypes().length == 0
-								&& !filteredMethods.contains(method.getName())
-								&& method.getName().length() >= 4) {
-							String key = method.getName().substring(3, 4)
-									.toLowerCase()
-									+ method.getName().substring(4);
+						if (method.getName().startsWith("get") && (method.getParameterTypes().length == 0)
+								&& !filteredMethods.contains(method.getName()) && (method.getName().length() >= 4)) {
+							String key = method.getName().substring(3, 4).toLowerCase() + method.getName().substring(4);
 							try {
 								Object obj = method.invoke(object);
 
@@ -97,17 +105,15 @@ public class ObjectDump {
 	}
 
 	public static boolean isPrimitiveOrString(final Object obj) {
-		return obj instanceof Boolean || obj instanceof Byte
-				|| obj instanceof Short || obj instanceof Integer
-				|| obj instanceof Long || obj instanceof Float
-				|| obj instanceof Double || obj instanceof String;
+		return (obj instanceof Boolean) || (obj instanceof Byte) || (obj instanceof Short) || (obj instanceof Integer)
+				|| (obj instanceof Long) || (obj instanceof Float) || (obj instanceof Double)
+				|| (obj instanceof String);
 	}
 
 	public static boolean isPrimitiveArray(final Object obj) {
-		return obj instanceof boolean[] || obj instanceof byte[]
-				|| obj instanceof short[] || obj instanceof char[]
-				|| obj instanceof int[] || obj instanceof long[]
-				|| obj instanceof float[] || obj instanceof double[];
+		return (obj instanceof boolean[]) || (obj instanceof byte[]) || (obj instanceof short[])
+				|| (obj instanceof char[]) || (obj instanceof int[]) || (obj instanceof long[])
+				|| (obj instanceof float[]) || (obj instanceof double[]);
 	}
 
 	public static boolean isArray(final Object obj) {
@@ -133,8 +139,7 @@ public class ObjectDump {
 		if (!(value instanceof JSONArray)) {
 			if (value instanceof String) {
 				sb = new StringBuffer();
-				sb.append(String.format("<li path=\"%s\">%s</li>\n", path,
-						listItemMaker(value.toString(), path)));
+				sb.append(String.format("<li path=\"%s\">%s</li>\n", path, listItemMaker(value.toString(), path)));
 				json.remove(OBJECT_KEY);
 				@SuppressWarnings("unchecked")
 				Iterator<String> keys = json.keys();
@@ -145,8 +150,7 @@ public class ObjectDump {
 						Object object = json.get(key);
 						String newPath = String.format("%s.%s", path, key);
 						if (object instanceof String) {
-							sb.append(String.format(
-									"<li path=\"%s\">%s</li>\n", newPath,
+							sb.append(String.format("<li path=\"%s\">%s</li>\n", newPath,
 									listItemMaker(object.toString(), newPath)));
 						} else if (object instanceof JSONObject) {
 							JSONObject child = (JSONObject) object;
@@ -159,11 +163,11 @@ public class ObjectDump {
 					sb.append("</ul>\n");
 				}
 			} else if (value == null) {
-				sb = new StringBuffer("");//FIXME
+				sb = new StringBuffer("");// FIXME
 			} else {
-				sb = new StringBuffer("");//FIXME
-				//throw new IllegalStateException(//FIXME
-				//		"we expect all the values to be either a String of a JSONObject.");
+				sb = new StringBuffer("");// FIXME
+				// throw new IllegalStateException(//FIXME
+				// "we expect all the values to be either a String of a JSONObject.");
 			}
 		} else {
 			JSONArray jsonArray = (JSONArray) value;
@@ -182,15 +186,12 @@ public class ObjectDump {
 			Object value = jsonArray.get(i);
 			String newPath = String.format("%s[%d]", path, i);
 			if (value instanceof String) {
-				sb.append(String.format("<li path=\"%s\">%s</li>\n", newPath,
-						listItemMaker(value.toString(), newPath)));
+				sb.append(String.format("<li path=\"%s\">%s</li>\n", newPath, listItemMaker(value.toString(), newPath)));
 			} else if (value instanceof JSONObject) {
-				sb.append(String.format("<li path=\"%s[%d]\">%s</li>\n",
-						newPath,
+				sb.append(String.format("<li path=\"%s[%d]\">%s</li>\n", newPath,
 						recursiveJSONPrint((JSONObject) value, newPath)));
 			} else {
-				throw new IllegalStateException(
-						"we expect all the values to be either a String of a JSONObject.");
+				throw new IllegalStateException("we expect all the values to be either a String of a JSONObject.");
 			}
 		}
 		return sb;

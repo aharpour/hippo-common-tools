@@ -1,3 +1,18 @@
+/*
+ *  Copyright 2012 Finalist B.V.
+ * 
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.tdclighthouse.commons.simpleform.html;
 
 import java.util.ArrayList;
@@ -19,8 +34,8 @@ public class FormItem {
 	private String value;
 	private String label;
 	private String hint;
-	private List<String> validatorClassNames;
-	private List<String> validationCriteria;
+	private final List<String> validatorClassNames;
+	private final List<String> validationCriteria;
 	private String errorMessage;
 	private Boolean mandatory;
 	private Boolean disabled = false;
@@ -36,8 +51,7 @@ public class FormItem {
 		typeSpecificInitialization(type, name);
 	}
 
-	public FormItem(String name, Type type, String value, String label,
-			String hint, List<String> validatorClassName,
+	public FormItem(String name, Type type, String value, String label, String hint, List<String> validatorClassName,
 			List<String> validationCriterion) {
 		if (validatorClassName.size() != validationCriterion.size()) {
 			throw new IllegalArgumentException("validatorClassName and"
@@ -54,8 +68,7 @@ public class FormItem {
 		typeSpecificInitialization(type, name);
 	}
 
-	public FormItem(String name, Type type, String value, String label,
-			String hint, List<String> validatorClassName,
+	public FormItem(String name, Type type, String value, String label, String hint, List<String> validatorClassName,
 			List<String> validationCriterion, Boolean mandatory) {
 		if (validatorClassName.size() != validationCriterion.size()) {
 			throw new IllegalArgumentException("validatorClassName and"
@@ -73,8 +86,7 @@ public class FormItem {
 		typeSpecificInitialization(type, name);
 	}
 
-	public FormItem(String name, Type type, String value, String label,
-			String hint, Boolean mandatory) {
+	public FormItem(String name, Type type, String value, String label, String hint, Boolean mandatory) {
 		this.name = name;
 		this.type = type;
 		this.value = value;
@@ -89,27 +101,26 @@ public class FormItem {
 	private void typeSpecificInitialization(Type type, String name) {
 	}
 
-	public void addValidator(String validatorClassName,
-			String validationCriterion) {
+	public void addValidator(String validatorClassName, String validationCriterion) {
 		this.validatorClassNames.add(validatorClassName);
 		this.validationCriteria.add(validationCriterion);
 
 	}
 
-	
 	/**
 	 * @param group
 	 */
 	void setGroup(FormItemGroup group) {
 		this.group = group;
 	}
-	
+
 	/**
 	 * @return group
 	 */
 	public FormItemGroup getGroup() {
 		return group;
 	}
+
 	/**
 	 * @return the name
 	 */
@@ -211,7 +222,7 @@ public class FormItem {
 	 */
 	public boolean getMandatory() {
 		boolean result = false;
-		if (mandatory != null && mandatory) {
+		if ((mandatory != null) && mandatory) {
 			result = mandatory;
 		}
 		return result;
@@ -230,7 +241,7 @@ public class FormItem {
 	 */
 	public boolean getDisabled() {
 		boolean result = false;
-		if (this.disabled != null && disabled) {
+		if ((this.disabled != null) && disabled) {
 			result = this.disabled;
 		}
 		return result;
@@ -298,8 +309,8 @@ public class FormItem {
 	}
 
 	public static enum Type {
-		TEXT("text"), TEXTFIELD("textfield"), PASSWORD("password"), SELECT(
-				"select"), HIDDEN("hidden"), SIMPLECHECKBOX("checkbox");
+		TEXT("text"), TEXTFIELD("textfield"), PASSWORD("password"), SELECT("select"), HIDDEN("hidden"), SIMPLECHECKBOX(
+				"checkbox");
 
 		private final String type;
 
