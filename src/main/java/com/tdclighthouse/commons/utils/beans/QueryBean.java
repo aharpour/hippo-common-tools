@@ -124,7 +124,7 @@ public class QueryBean {
 					if (firstTime) {
 						firstTime = false;
 					} else {
-						result.append("&amp;");
+						result.append("&");
 					}
 					result.append(urlCode.encode(key));
 					result.append('=');
