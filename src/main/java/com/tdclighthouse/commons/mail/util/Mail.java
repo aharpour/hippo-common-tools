@@ -23,11 +23,14 @@ public class Mail {
 	private String subject;
 	private String messageBody;
 	private String htmlBody;
-	private String[] attachments = new String[0];
+	private String[] attachments;
 
 	public Mail(String subject, String messageBody) {
-		this.subject = subject;
-		this.messageBody = messageBody;
+		this(subject, messageBody, null, new String[0]);
+	}
+
+	public Mail(String subject, String messageBody, String htmlBody) {
+		this(subject, messageBody, htmlBody, new String[0]);
 	}
 
 	public Mail(String subject, String messageBody, String htmlBody, String[] attachments) {
