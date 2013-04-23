@@ -310,7 +310,7 @@ public class FormItem {
 
 	public static enum Type {
 		TEXT("text"), TEXTFIELD("textfield"), PASSWORD("password"), SELECT("select"), HIDDEN("hidden"), SIMPLECHECKBOX(
-				"checkbox");
+				"checkbox"), RADIO("radio");
 
 		private final String type;
 
@@ -361,5 +361,56 @@ public class FormItem {
 	public void setDataType(DataType dataType) {
 		this.dataType = dataType;
 	}
+	
+	private RadioButtons radioButtons;
+	
+	/**
+	 * @return the radioButtos
+	 */
+	public RadioButtons getRadioButtons() {
+		return radioButtons;
+	}
 
+	/**
+	 * @param radioButtos the radioButtos to set
+	 */
+	public void setRadioButtons(RadioButtons radioButtons) {
+		this.radioButtons = radioButtons;
+	}
+	
+	//constructor to be used for radio buttons
+	public FormItem(String name, Type type, String value, String label,
+			String hint, String[] buttonValues, boolean[] defalutValues, Boolean mandatory) {
+		this.name = name;
+		this.type = type;
+		this.label = label;
+		this.hint = hint;
+		this.mandatory = mandatory;
+		this.radioButtons = new RadioButtons(name, buttonValues, defalutValues);
+		this.value = radioButtons.getValue();
+		validatorClassNames = new ArrayList<String>();
+		validationCriteria = new ArrayList<String>();
+		typeSpecificInitialization(type, name);
+	}
+	
+	//constructor to be used for dropdowns
+	public FormItem(String name, Type type, String value, String label,
+			String hint, String[] optionsValues, String[] optionsText, Boolean mandatory) {
+		System.out.println("through new constructor");
+		this.name = name;
+		this.type = type;
+		this.label = label;
+		this.hint = hint;
+		this.mandatory = mandatory;
+		populateSelectFormItem(this, optionsValues, optionsText);
+		validatorClassNames = new ArrayList<String>();
+		validationCriteria = new ArrayList<String>();
+		typeSpecificInitialization(type, name);
+	}
+	
+	public void populateSelectFormItem(FormItem selectFormItem, String[] values, String[] text) {
+		for(int i=0; i<values.length; i++){
+			selectFormItem.addOption(new Option(values[i], text[i]));
+		}
+	}
 }

@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import com.tdclighthouse.commons.simpleform.html.Form;
 import com.tdclighthouse.commons.simpleform.html.FormItem;
+import com.tdclighthouse.commons.simpleform.html.FormItem.Type;
 import com.tdclighthouse.commons.simpleform.validation.ValidatorEngine;
 
 /**
@@ -119,6 +120,9 @@ public class FormManager {
 					if (param != null) {
 						parameterMap.remove(item.getName());
 						item.setValue(param);
+					}//hold the checkbox value 
+					else if (item.getType() == Type.SIMPLECHECKBOX) {
+						item.setValue("off");
 					}
 				}
 			}

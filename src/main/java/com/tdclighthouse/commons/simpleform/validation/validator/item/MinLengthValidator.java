@@ -24,10 +24,23 @@ import com.tdclighthouse.commons.simpleform.validation.FormItemValidator;
  * @author Ebrahim Aharpour
  * 
  */
-public class MinLengthValidator implements FormItemValidator {
+public class MinLengthValidator extends ConditionalValidator implements FormItemValidator {
 
 	@Override
 	public boolean validate(FormItem item, String param) {
+		if (isConditionalValidator(param, CONDITIONAL_VALIDATION)){
+			if(isConditionSatisfied(item, param, CONDITIONAL_VALIDATION)){
+				return performValidation(item, param);
+			}else{
+				item.setErrorMessage(null);
+				return true;
+			}
+		}else{
+			return performValidation(item, param);
+		}
+	}
+	
+	private boolean performValidation(FormItem item, String param) {
 		int minLength = Integer.parseInt(param);
 		boolean result = item.getValue().length() >= minLength;
 		if (!result) {

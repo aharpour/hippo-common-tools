@@ -207,7 +207,7 @@ public class Form {
 		// TODO it needs to be refactored. Bear in mind that a incomplete but working software is better than no
 		// software
 		public Collection<FormItem> getFormItems(Object bean) throws IntrospectionException, IllegalArgumentException,
-				IllegalAccessException, InvocationTargetException, SecurityException, NoSuchFieldException {
+   			     IllegalAccessException, InvocationTargetException, SecurityException, NoSuchFieldException {
 			@SuppressWarnings("unchecked")
 			SortedMap<Double, FormItem> map = new TreeMap<Double, FormItem>(new ComparableComparator());
 
@@ -224,9 +224,10 @@ public class Form {
 					if (field != null) {
 						String name = getFieldName(propertyDescriptor, field);
 						String StringValue = getStringValue(bean, propertyDescriptor);
-						FormItem formItem = new FormItem(name, field.type(), StringValue, field.label(), field.hint(),
-								field.mandatory());
-						if (field.mandatory()) {
+						
+						FormItem formItem = createFormItem(field, name, StringValue);
+													
+						if(field.mandatory()) {
 							formItem.addValidator(BlankFieldValidator.getName(), "");
 						}
 						Validator validatorAnnotation = declaredField.getAnnotation(Validator.class);
@@ -261,6 +262,22 @@ public class Form {
 				result = valueObject.toString();
 			}
 			return result;
+		}
+		
+		private FormItem createFormItem(Field field, String name, String StringValue) {
+			FormItem formItem = null;
+			
+			if(field.type().toString().equalsIgnoreCase("RADIO")){
+				formItem = new FormItem(name, field.type(), "", field.label(), field.hint(), 
+						field.buttonValues(), field.defaultValues(), field.mandatory());
+			}else if(field.type().toString().equalsIgnoreCase("SELECT")){
+				formItem = new FormItem(name, field.type(), "", field.label(), field.hint(), 
+					  field.optionsValues(), field.optionsText(), field.mandatory());
+			}else{
+				formItem = new FormItem(name, field.type(), StringValue, field.label(), field.hint(), field.mandatory());
+			}
+			
+			return formItem;
 		}
 
 	}

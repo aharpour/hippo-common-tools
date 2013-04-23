@@ -24,10 +24,23 @@ import com.tdclighthouse.commons.simpleform.validation.FormItemValidator;
  * @author Ebrahim Aharpour
  * 
  */
-public class BlankFieldValidator implements FormItemValidator {
-
+public class BlankFieldValidator extends ConditionalValidator implements FormItemValidator {
+	
 	@Override
 	public boolean validate(FormItem item, String param) {
+		if (ConditionalValidator.isConditionalValidator(param, CONDITIONAL_VALIDATION)){
+			if(ConditionalValidator.isConditionSatisfied(item, param, CONDITIONAL_VALIDATION)){
+				return performValidation(item, param);
+			}else{
+				item.setErrorMessage(null);
+				return true;
+			}
+		}else{
+			return performValidation(item, param);
+		}
+	}
+
+	private boolean performValidation(FormItem item, String param){
 		boolean result = !StringUtils.isBlank(item.getValue());
 		if (!result) {
 			item.setErrorMessage(getMessage());

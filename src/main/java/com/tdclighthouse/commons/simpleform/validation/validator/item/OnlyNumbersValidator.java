@@ -15,26 +15,15 @@
  */
 package com.tdclighthouse.commons.simpleform.validation.validator.item;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.tdclighthouse.commons.simpleform.html.FormItem;
 import com.tdclighthouse.commons.simpleform.validation.FormItemValidator;
 
 /**
- * @author Ebrahim Aharpour
+ * @author Gridi Serbo
  * 
  */
-public class IntegerValidator extends ConditionalValidator implements FormItemValidator {
-
-	public String getBadFromatedMessage() {
-		return "simpleform.validation.badly.formated.integer";
-	}
-
-	public String getGreaterMessage() {
-		return "simpleform.validation.integer.greater.limit";
-	}
-
-	@Override
+public class OnlyNumbersValidator extends ConditionalValidator implements FormItemValidator{
+	
 	public boolean validate(FormItem item, String param) {
 		if (isConditionalValidator(param, CONDITIONAL_VALIDATION)){
 			if(isConditionSatisfied(item, param, CONDITIONAL_VALIDATION)){
@@ -48,42 +37,23 @@ public class IntegerValidator extends ConditionalValidator implements FormItemVa
 		}
 	}
 	
-	private boolean performValidation(FormItem item, String param) {
-		boolean result;
-		Integer max = null;
-		if (!StringUtils.isBlank(param)) {
-			try {
-				int par = Integer.parseInt(param);
-				max = par;
-			} catch (NumberFormatException e) {
-			}
-		}
-		String value = item.getValue();
+	public String getBadFromatedMessage() {
+		return "simpleform.validation.onlynumbers.not.matched";
+	}
+	
+	private boolean performValidation(FormItem item, String param){
+		boolean result = true;
+		String providedValue = item.getValue();
+		
 		try {
-			if (!StringUtils.isBlank(value)) {
-				int intValue = Integer.parseInt(value);
-				if (max == null) {
-					result = setValid(item);
-				} else {
-					if (intValue <= max) {
-						result = setValid(item);
-					} else {
-						result = false;
-						item.setErrorMessage(getGreaterMessage());
-					}
-				}
-			} else {
-				result = setValid(item);
-			}
+			Integer.parseInt(providedValue);				
 		} catch (NumberFormatException e) {
-			result = false;
 			item.setErrorMessage(getBadFromatedMessage());
+			return false;
 		}
+		
+		item.setErrorMessage(null);
 		return result;
 	}
-
-	private boolean setValid(FormItem item) {
-		item.setErrorMessage(null);
-		return true;
-	}
+	
 }
