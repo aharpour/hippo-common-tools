@@ -41,4 +41,12 @@ public @interface Field {
 	public boolean mandatory() default false;
 
 	public double weight() default 0.0;
+	
+	public String[] buttonValues() default {"true", "false"};
+	
+	public boolean[] defaultValues() default {false, true};
+	
+	public String[] optionsValues() default {"true", "false"};
+	
+	public String[] optionsText() default {"true", "false"};
 }

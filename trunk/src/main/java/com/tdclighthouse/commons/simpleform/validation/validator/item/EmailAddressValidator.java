@@ -25,6 +25,19 @@ public class EmailAddressValidator extends PatternMatchValidator {
 
 	@Override
 	public boolean validate(FormItem item, String param) {
+		if (ConditionalValidator.isConditionalValidator(param, CONDITIONAL_VALIDATION)){
+			if(ConditionalValidator.isConditionSatisfied(item, param, CONDITIONAL_VALIDATION)){
+				return performValidation(item, param);
+			}else{
+				item.setErrorMessage(null);
+				return true;
+			}
+		}else{
+			return performValidation(item, param);
+		}
+	}
+	
+	private boolean performValidation(FormItem item, String param) {
 		return super.validate(item, "^([0-9a-zA-Z]+[-._+&amp;amp;])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$");
 	}
 

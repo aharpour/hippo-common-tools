@@ -37,7 +37,7 @@ public class FormItemGroup {
 	private String label;
 	private final GroupType groupType;
 
-	FormItemGroup(String groupName, String groupLabel, FormItemGroup parent) {
+	protected FormItemGroup(String groupName, String groupLabel, FormItemGroup parent) {
 		this(groupName, groupLabel, parent, null);
 	}
 
@@ -177,6 +177,10 @@ public class FormItemGroup {
 		public String toString() {
 			return label;
 		}
+	}
+	
+	public FormItem getItemByName(String name) {
+		return getItemsMap().get(name);
 	}
 
 }

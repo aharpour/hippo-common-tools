@@ -34,7 +34,25 @@ public class DutchPostalCodeValidator extends PatternMatchValidator {
 	 */
 	@Override
 	public boolean validate(FormItem item, String param) {
-		return super.validate(item, REGEX_PATTERN);
+		if (ConditionalValidator.isConditionalValidator(param, CONDITIONAL_VALIDATION)){
+			if(ConditionalValidator.isConditionSatisfied(item, param, CONDITIONAL_VALIDATION)){
+				return performValidation(item);
+			}else{
+				item.setErrorMessage(null);
+				return true;
+			}
+		}else{
+			return performValidation(item);
+		}
+	}
+
+	private boolean performValidation(FormItem item) {
+		if(item.getValue().length()<=6){
+			return super.validate(item, REGEX_PATTERN);
+		}else{
+			item.setErrorMessage(getMessage());
+			return false;
+		}
 	}
 
 	/*

@@ -26,10 +26,23 @@ import com.tdclighthouse.commons.simpleform.validation.FormItemValidator;
  * @author Ebrahim Aharpour
  * 
  */
-public class DropdownValidator implements FormItemValidator {
+public class DropdownValidator extends ConditionalValidator implements FormItemValidator {
 
 	@Override
 	public boolean validate(FormItem item, String param) {
+		if (ConditionalValidator.isConditionalValidator(param, CONDITIONAL_VALIDATION)){
+			if(ConditionalValidator.isConditionSatisfied(item, param, CONDITIONAL_VALIDATION)){
+				return performValidation(item, param);
+			}else{
+				item.setErrorMessage(null);
+				return true;
+			}
+		}else{
+			return performValidation(item, param);
+		}
+	}
+	
+	private boolean performValidation(FormItem item, String param) {
 		if (item.getType() != Type.SELECT) {
 			throw new IllegalArgumentException("this validator is" + " only applicable to FormItems of the type SELECT");
 		}
