@@ -161,6 +161,14 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<inherited>true</inherited>
+					<configuration>
+						<show>private</show>
+						<additionalparam>-Xdoclint:none</additionalparam>
+					</configuration>
+				</plugin>
+				<plugin>
 					<inherited>true</inherited>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
