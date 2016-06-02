@@ -15,15 +15,13 @@
  */
 package com.tdclighthouse.commons.utils.beans;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.codec.EncoderException;
 import org.apache.commons.codec.net.URLCodec;
-import org.hippoecm.hst.core.component.HstRequest;
 
 /**
  * @author Ebrahim Aharpour
@@ -31,7 +29,6 @@ import org.hippoecm.hst.core.component.HstRequest;
  */
 public class QueryBean {
 	private HttpServletRequest request;
-	private String nameSpace = "";
 	private final Map<String, String[]> map = new TreeMap<String, String[]>();
 	private final URLCodec urlCode = new URLCodec();
 
@@ -49,30 +46,7 @@ public class QueryBean {
 	@SuppressWarnings("unchecked")
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
-		if (request instanceof HstRequest) {
-			HstRequest hstRequest = (HstRequest) request;
-			String contextNamespaceReference = hstRequest.getRequestContext().getContextNamespace();
-			contextNamespaceReference = (contextNamespaceReference == null ? "" : contextNamespaceReference);
-			map.putAll(hstRequest.getParameterMap(contextNamespaceReference));
-		} else {
-			map.putAll(request.getParameterMap());
-		}
-
-	}
-
-	/**
-	 * @return the nameSpace
-	 */
-	public String getNameSpace() {
-		return nameSpace;
-	}
-
-	/**
-	 * @param nameSpace
-	 *            the nameSpace to set
-	 */
-	public void setNameSpace(String nameSpace) {
-		this.nameSpace = nameSpace;
+		map.putAll(request.getParameterMap());
 	}
 
 	/**
