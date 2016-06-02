@@ -18,7 +18,7 @@
 	<groupId>com.tdclighthouse.hippo</groupId>
 	<artifactId>hippo-common-tools</artifactId>
 	<packaging>jar</packaging>
-	<version>10.2.00</version>
+	<version>10.2.01-SNAPSHOT</version>
 	<name>Hippo common tools</name>
 	<url>http://tdclighthouse.com</url>
 
@@ -126,7 +126,7 @@
 		<connection>scm:git:git://github.com:aharpour/hippo-common-tools.git</connection>
 		<developerConnection>scm:git:git@github.com:aharpour/hippo-common-tools.git</developerConnection>
 		<url>https://github.com/aharpour/hippo-common-tools</url>
-		<tag>hippo-common-tools-10.2.00</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<distributionManagement>
